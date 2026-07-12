@@ -13,14 +13,26 @@
 }
 body{
   min-height: 100vh;
-  background: linear-gradient(140deg, #192a56, #273c75);
   font-family: "Microsoft Yahei", sans-serif;
   color: #fff;
   padding: 60px 20px;
+  position: relative;
+  background: #0a0e17;
+}
+/* 粒子画布铺满全屏，置于底层 */
+#particles-bg{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 .container{
   max-width: 900px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 /* 顶部大标题区域 */
 .header{
@@ -37,12 +49,12 @@ body{
 }
 /* 折叠模块容器 */
 .box-item{
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
   border-radius: 14px;
   margin-bottom: 18px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 /* 模块标题栏（可点击） */
 .box-title{
@@ -109,10 +121,12 @@ body{
 </style>
 </head>
 <body>
+<!-- 粒子背景画布 -->
+<div id="particles-bg"></div>
 <div class="container">
   <div class="header">
-    <h1>sunwalker</h1>
-    <p>个人网站</p>
+    <h1>武子硕</h1>
+    <p>北京大学 生命科学｜合成生物学 & 生物信息学</p>
   </div>
 
   <!-- 模块1：个人简介 -->
@@ -123,9 +137,9 @@ body{
     </div>
     <div class="box-content">
       <div class="box-content-inner">
-        男，取向女（），180黑皮非体育生，目前就读于北京大学生命科学学院。
+        本科就读于北大生命科学学院，专注合成生物学、微生物工程与生物数据分析；参与iGEM竞赛，擅长分子实验、Python生物信息处理、数据可视化。
         <br><br>
-        高端infj，喜欢打游戏，散步，跑步，听歌，乒乓球，欢迎大家和我交朋友。
+        日常兴趣：野外植物生态考察、数理推导、前端页面开发。
       </div>
     </div>
   </div>
@@ -189,7 +203,23 @@ body{
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
+// 粒子背景配置
+particlesJS("particles-bg",{
+  particles:{
+    number:{value:80},
+    color:{value:"#90c8ff"},
+    shape:{type:"circle"},
+    opacity:{value:0.4},
+    size:{value:2, random:true},
+    line_linked:{enable:true, color:"#4078b8", opacity:0.15},
+    move:{speed:0.8}
+  },
+  interactivity:{
+    onhover:{enable:true, mode:"grab"}
+  }
+})
 // 折叠展开逻辑
 const allBox = document.querySelectorAll('.box-item');
 allBox.forEach(box => {
