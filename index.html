@@ -15,7 +15,6 @@ body{
   min-height: 100vh;
   font-family: "Microsoft Yahei", sans-serif;
   color: #fff;
-  padding: 60px 20px;
   position: relative;
   background: #0a0e17;
 }
@@ -28,16 +27,13 @@ body{
   left: 0;
   z-index: -1;
 }
-.container{
-  max-width: 900px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
 /* 顶部大标题区域 */
 .header{
-  text-align: center;
-  margin-bottom: 50px;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  z-index: 9;
+  text-align: left;
 }
 .header h1{
   font-size: 42px;
@@ -52,9 +48,10 @@ body{
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(12px);
   border-radius: 14px;
-  margin-bottom: 18px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.1);
+  position: absolute;
+  width: 380px;
 }
 /* 模块标题栏（可点击） */
 .box-title{
@@ -118,92 +115,119 @@ body{
 .link:hover{
   background: rgba(100,180,255,0.3);
 }
+
+/* 自定义板块位置与异形圆角 */
+.box-about{
+  top: 140px;
+  left: 30px;
+  border-radius: 24px;
+}
+.box-skill{
+  top: 30px;
+  right: 30px;
+  border-radius: 999px;
+}
+.box-project{
+  bottom: 40px;
+  left: 30px;
+  border-radius: 8px 30px 8px 30px;
+}
+.box-contact{
+  top: 320px;
+  right: 30px;
+  border-radius: 20px 8px 20px 8px;
+}
+.box-post{
+  bottom: 40px;
+  right: 30px;
+  border-radius: 30px 8px;
+}
 </style>
 </head>
 <body>
 <!-- 粒子背景画布 -->
 <div id="particles-bg"></div>
-<div class="container">
-  <div class="header">
-    <h1>欢迎来到sunwalker的小窝</h1>
-    <p> Welcome everyone！</p>
-  </div>
 
-  <!-- 模块1：个人简介 -->
-  <div class="box-item">
-    <div class="box-title">
-      <span><i class="fa-solid fa-user"></i> 关于我</span>
-      <i class="fa-solid fa-chevron-down"></i>
-    </div>
-    <div class="box-content">
-      <div class="box-content-inner">
-        本科就读于北大生命科学学院，专注合成生物学、微生物工程与生物数据分析；参与iGEM竞赛，擅长分子实验、Python生物信息处理、数据可视化。
-        <br><br>
-        日常兴趣：野外植物生态考察、数理推导、前端页面开发。
-      </div>
-    </div>
-  </div>
+<div class="header">
+  <h1>欢迎来到sunwalker的小窝</h1>
+  <p> Welcome everyone！</p>
+</div>
 
-  <!-- 模块2：技能栈 -->
-  <div class="box-item">
-    <div class="box-title">
-      <span><i class="fa-solid fa-flask"></i> 专业技能</span>
-      <i class="fa-solid fa-chevron-down"></i>
-    </div>
-    <div class="box-content">
-      <div class="box-content-inner">
-        <strong>生物方向：</strong><br>
-        <span class="tag">分子克隆</span>
-        <span class="tag">细胞培养</span>
-        <span class="tag">微生物实验</span>
-        <span class="tag">野外植物生态</span>
-        <br><br>
-        <strong>编程工具：</strong><br>
-        <span class="tag">Python</span>
-        <span class="tag">HTML/CSS/JS</span>
-        <span class="tag">生物信息分析</span>
-        <span class="tag">数据绘图</span>
-      </div>
-    </div>
+<!-- 模块1：个人简介 -->
+<div class="box-item box-about">
+  <div class="box-title">
+    <span><i class="fa-solid fa-user"></i> 关于我</span>
+    <i class="fa-solid fa-chevron-down"></i>
   </div>
-
-  <!-- 模块3：科研项目 -->
-  <div class="box-item">
-    <div class="box-title">
-      <span><i class="fa-solid fa-file-circle-question"></i> 项目与竞赛</span>
-      <i class="fa-solid fa-chevron-down"></i>
-    </div>
-    <div class="box-content">
-      <div class="box-content-inner">
-        <strong>iGEM 合成生物学项目</strong>
-        <p>设计工程菌用于环境胁迫响应，完成载体构建、表征实验与建模分析。</p>
-        <br>
-        <strong>高原植物适应机制调研</strong>
-        <p>西北干旱、高海拔植物野外采样，研究耐旱耐盐生理结构。</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- 模块4：联系方式 -->
-  <div class="box-item">
-    <div class="box-title">
-      <span><i class="fa-solid fa-envelope"></i> 联系渠道</span>
-      <i class="fa-solid fa-chevron-down"></i>
-    </div>
-    <div class="box-content">
-      <div class="box-content-inner">
-        <a class="link" href="https://github.com/wuzishuo">
-          <i class="fa-brands fa-github"></i> GitHub
-        </a>
-        <a class="link" href="mailto:xxx@qq.com">
-          <i class="fa-solid fa-at"></i> 邮箱
-        </a>
-      </div>
+  <div class="box-content">
+    <div class="box-content-inner">
+      本科就读于北大生命科学学院，专注合成生物学、微生物工程与生物数据分析；参与iGEM竞赛，擅长分子实验、Python生物信息处理、数据可视化。
+      <br><br>
+      日常兴趣：野外植物生态考察、数理推导、前端页面开发。
     </div>
   </div>
 </div>
+
+<!-- 模块2：技能栈 -->
+<div class="box-item box-skill">
+  <div class="box-title">
+    <span><i class="fa-solid fa-flask"></i> 专业技能</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="box-content">
+    <div class="box-content-inner">
+      <strong>生物方向：</strong><br>
+      <span class="tag">分子克隆</span>
+      <span class="tag">细胞培养</span>
+      <span class="tag">微生物实验</span>
+      <span class="tag">野外植物生态</span>
+      <br><br>
+      <strong>编程工具：</strong><br>
+      <span class="tag">Python</span>
+      <span class="tag">HTML/CSS/JS</span>
+      <span class="tag">生物信息分析</span>
+      <span class="tag">数据绘图</span>
+    </div>
+  </div>
+</div>
+
+<!-- 模块3：科研项目 -->
+<div class="box-item box-project">
+  <div class="box-title">
+    <span><i class="fa-solid fa-file-circle-question"></i> 项目与竞赛</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="box-content">
+    <div class="box-content-inner">
+      <strong>iGEM 合成生物学项目</strong>
+      <p>设计工程菌用于环境胁迫响应，完成载体构建、表征实验与建模分析。</p>
+      <br>
+      <strong>高原植物适应机制调研</strong>
+      <p>西北干旱、高海拔植物野外采样，研究耐旱耐盐生理结构。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 模块4：联系方式 -->
+<div class="box-item box-contact">
+  <div class="box-title">
+    <span><i class="fa-solid fa-envelope"></i> 联系渠道</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="box-content">
+    <div class="box-content-inner">
+      <a class="link" href="https://github.com/wuzishuo">
+        <i class="fa-brands fa-github"></i> GitHub
+      </a>
+      <a class="link" href="mailto:xxx@qq.com">
+        <i class="fa-solid fa-at"></i> 邮箱
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- 模块5：我的帖子板块（仅博主发帖，访客评论点赞） -->
-<div class="box-item">
+<div class="box-item box-post">
   <div class="box-title">
     <span><i class="fa-solid fa-newspaper"></i> 我的动态帖子</span>
     <i class="fa-solid fa-chevron-down"></i>
@@ -212,7 +236,7 @@ body{
     <div class="box-content-inner">
       <p>本板块仅博主可发布新帖子，登录GitHub即可评论、点赞互动</p>
       <br>
-      <!-- 这里粘贴你从giscus.app复制的完整script代码 -->
+      <!-- Giscus评论代码 -->
       <script src="https://giscus.app/client.js"
         data-repo="sunwalkerwuzishuo/sunwalkerwuzishuo.github.io"
         data-repo-id="R_kgDOTWEi4w"
@@ -231,6 +255,7 @@ body{
     </div>
   </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
 // 粒子背景配置
