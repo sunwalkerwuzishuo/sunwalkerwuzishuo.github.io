@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>武子硕 - 个人主页</title>
+<title>sunwalker - 个人主页</title>
 <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 *{
@@ -17,8 +17,9 @@ body{
   color: #fff;
   position: relative;
   background: #0a0e17;
+  overflow-x: hidden;
 }
-/* 粒子画布铺满全屏，置于底层 */
+/* 粒子背景 */
 #particles-bg{
   position: fixed;
   width: 100%;
@@ -27,72 +28,109 @@ body{
   left: 0;
   z-index: -1;
 }
-/* 顶部大标题区域 */
+/* 顶部标题 */
 .header{
   position: absolute;
   top: 30px;
-  left: 30px;
-  z-index: 9;
-  text-align: left;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
 }
 .header h1{
-  font-size: 42px;
-  margin-bottom: 12px;
+  font-size: 36px;
+  margin-bottom: 8px;
 }
 .header p{
-  font-size: 18px;
+  font-size: 16px;
   opacity: 0.8;
 }
-/* 折叠模块容器 */
-.box-item{
+/* 卡片容器网格布局，紧凑排版 */
+.card-wrap{
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: 320px 320px;
+  gap: 30px;
+}
+/* 主方形卡片（仅显示标题） */
+.card-item{
+  width: 320px;
+  height: 220px;
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(12px);
-  border-radius: 14px;
-  overflow: hidden;
   border: 1px solid rgba(255,255,255,0.1);
-  position: absolute;
-  width: 380px;
-}
-/* 模块标题栏（可点击） */
-.box-title{
-  padding: 20px 26px;
-  font-size: 20px;
+  border-radius: 20px;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  transition: background 0.25s;
+  justify-content: center;
+  transition: 0.3s ease;
 }
-.box-title:hover{
-  background: rgba(255,255,255,0.1);
+.card-item:hover{
+  background: rgba(255,255,255,0.12);
+  transform: scale(1.04);
 }
-.box-title i{
-  transition: transform 0.3s ease;
+.card-item i{
+  font-size: 42px;
+  margin-bottom: 16px;
+  color: #90c8ff;
 }
-/* 展开内容区域 */
-.box-content{
-  max-height: 0;
-  overflow: hidden;
-  padding: 0 26px;
-  transition: all 0.4s ease;
-  opacity: 0;
+.card-item span{
+  font-size: 22px;
 }
-.box-content-inner{
-  padding-bottom: 26px;
-  line-height: 1.7;
-  font-size: 16px;
-  opacity: 0.9;
+/* 全屏内容弹窗面板 */
+.content-panel{
+  position: fixed;
+  inset: 0;
+  background: rgba(10,14,23,0.92);
+  backdrop-filter: blur(8px);
+  z-index: 20;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
 }
-/* 激活展开状态类 */
-.box-item.open .box-content{
-  max-height: 2000px;
-  padding: 0 26px 26px;
+/* 内容白色面板 */
+.panel-box{
+  width: min(700px, 100%);
+  max-height: 85vh;
+  overflow-y: auto;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 24px;
+  padding: 40px;
+  position: relative;
+}
+/* 关闭按钮 */
+.close-btn{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+.close-btn:hover{
   opacity: 1;
 }
-.box-item.open .box-title i{
-  transform: rotate(180deg);
+.panel-title{
+  font-size: 28px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-/* 标签样式 */
+.panel-text{
+  line-height: 1.8;
+  font-size: 16px;
+  opacity: 0.92;
+}
+/* 标签、链接样式不变 */
 .tag{
   display: inline-block;
   background: rgba(100,180,255,0.2);
@@ -101,7 +139,6 @@ body{
   margin: 6px 4px;
   font-size: 14px;
 }
-/* 链接按钮 */
 .link{
   display: inline-block;
   margin: 8px 10px 8px 0;
@@ -115,52 +152,53 @@ body{
 .link:hover{
   background: rgba(100,180,255,0.3);
 }
-
-/* 自定义板块位置与异形圆角 */
-.box-about{
-  top: 140px;
-  left: 30px;
-  border-radius: 24px;
-}
-.box-skill{
-  top: 30px;
-  right: 30px;
-  border-radius: 999px;
-}
-.box-project{
-  bottom: 40px;
-  left: 30px;
-  border-radius: 8px 30px 8px 30px;
-}
-.box-contact{
-  top: 320px;
-  right: 30px;
-  border-radius: 20px 8px 20px 8px;
-}
-.box-post{
-  bottom: 40px;
-  right: 30px;
-  border-radius: 30px 8px;
+/* 帖子面板宽度适配Giscus */
+#panel-post{
+  width: min(900px,100%);
 }
 </style>
 </head>
 <body>
-<!-- 粒子背景画布 -->
 <div id="particles-bg"></div>
 
+<!-- 顶部标题 -->
 <div class="header">
   <h1>欢迎来到sunwalker的小窝</h1>
   <p> Welcome everyone！</p>
 </div>
 
-<!-- 模块1：个人简介 -->
-<div class="box-item box-about">
-  <div class="box-title">
-    <span><i class="fa-solid fa-user"></i> 关于我</span>
-    <i class="fa-solid fa-chevron-down"></i>
+<!-- 首页方形卡片列表 -->
+<div class="card-wrap">
+  <div class="card-item" data-target="panel-about">
+    <i class="fa-solid fa-user"></i>
+    <span>关于我</span>
   </div>
-  <div class="box-content">
-    <div class="box-content-inner">
+  <div class="card-item" data-target="panel-skill">
+    <i class="fa-solid fa-flask"></i>
+    <span>专业技能</span>
+  </div>
+  <div class="card-item" data-target="panel-project">
+    <i class="fa-solid fa-file-circle-question"></i>
+    <span>项目与竞赛</span>
+  </div>
+  <div class="card-item" data-target="panel-contact">
+    <i class="fa-solid fa-envelope"></i>
+    <span>联系渠道</span>
+  </div>
+  <div class="card-item" data-target="panel-post" style="grid-column: 1 / -1; width: 320px; margin: 0 auto;">
+    <i class="fa-solid fa-newspaper"></i>
+    <span>我的动态帖子</span>
+  </div>
+</div>
+
+<!-- 弹窗面板1：关于我 -->
+<div class="content-panel" id="panel-about">
+  <div class="panel-box">
+    <i class="fa-solid fa-xmark close-btn"></i>
+    <div class="panel-title">
+      <i class="fa-solid fa-user"></i> 关于我
+    </div>
+    <div class="panel-text">
       本科就读于北大生命科学学院，专注合成生物学、微生物工程与生物数据分析；参与iGEM竞赛，擅长分子实验、Python生物信息处理、数据可视化。
       <br><br>
       日常兴趣：野外植物生态考察、数理推导、前端页面开发。
@@ -168,14 +206,14 @@ body{
   </div>
 </div>
 
-<!-- 模块2：技能栈 -->
-<div class="box-item box-skill">
-  <div class="box-title">
-    <span><i class="fa-solid fa-flask"></i> 专业技能</span>
-    <i class="fa-solid fa-chevron-down"></i>
-  </div>
-  <div class="box-content">
-    <div class="box-content-inner">
+<!-- 弹窗面板2：专业技能 -->
+<div class="content-panel" id="panel-skill">
+  <div class="panel-box">
+    <i class="fa-solid fa-xmark close-btn"></i>
+    <div class="panel-title">
+      <i class="fa-solid fa-flask"></i> 专业技能
+    </div>
+    <div class="panel-text">
       <strong>生物方向：</strong><br>
       <span class="tag">分子克隆</span>
       <span class="tag">细胞培养</span>
@@ -191,14 +229,14 @@ body{
   </div>
 </div>
 
-<!-- 模块3：科研项目 -->
-<div class="box-item box-project">
-  <div class="box-title">
-    <span><i class="fa-solid fa-file-circle-question"></i> 项目与竞赛</span>
-    <i class="fa-solid fa-chevron-down"></i>
-  </div>
-  <div class="box-content">
-    <div class="box-content-inner">
+<!-- 弹窗面板3：项目竞赛 -->
+<div class="content-panel" id="panel-project">
+  <div class="panel-box">
+    <i class="fa-solid fa-xmark close-btn"></i>
+    <div class="panel-title">
+      <i class="fa-solid fa-file-circle-question"></i> 项目与竞赛
+    </div>
+    <div class="panel-text">
       <strong>iGEM 合成生物学项目</strong>
       <p>设计工程菌用于环境胁迫响应，完成载体构建、表征实验与建模分析。</p>
       <br>
@@ -208,14 +246,14 @@ body{
   </div>
 </div>
 
-<!-- 模块4：联系方式 -->
-<div class="box-item box-contact">
-  <div class="box-title">
-    <span><i class="fa-solid fa-envelope"></i> 联系渠道</span>
-    <i class="fa-solid fa-chevron-down"></i>
-  </div>
-  <div class="box-content">
-    <div class="box-content-inner">
+<!-- 弹窗面板4：联系方式 -->
+<div class="content-panel" id="panel-contact">
+  <div class="panel-box">
+    <i class="fa-solid fa-xmark close-btn"></i>
+    <div class="panel-title">
+      <i class="fa-solid fa-envelope"></i> 联系渠道
+    </div>
+    <div class="panel-text">
       <a class="link" href="https://github.com/wuzishuo">
         <i class="fa-brands fa-github"></i> GitHub
       </a>
@@ -226,17 +264,16 @@ body{
   </div>
 </div>
 
-<!-- 模块5：我的帖子板块（仅博主发帖，访客评论点赞） -->
-<div class="box-item box-post">
-  <div class="box-title">
-    <span><i class="fa-solid fa-newspaper"></i> 我的动态帖子</span>
-    <i class="fa-solid fa-chevron-down"></i>
-  </div>
-  <div class="box-content">
-    <div class="box-content-inner">
+<!-- 弹窗面板5：帖子Giscus -->
+<div class="content-panel" id="panel-post">
+  <div class="panel-box" id="panel-post">
+    <i class="fa-solid fa-xmark close-btn"></i>
+    <div class="panel-title">
+      <i class="fa-solid fa-newspaper"></i> 我的动态帖子
+    </div>
+    <div class="panel-text">
       <p>本板块仅博主可发布新帖子，登录GitHub即可评论、点赞互动</p>
       <br>
-      <!-- Giscus评论代码 -->
       <script src="https://giscus.app/client.js"
         data-repo="sunwalkerwuzishuo/sunwalkerwuzishuo.github.io"
         data-repo-id="R_kgDOTWEi4w"
@@ -258,7 +295,7 @@ body{
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
-// 粒子背景配置
+// 粒子背景
 particlesJS("particles-bg",{
   particles:{
     number:{value:80},
@@ -273,16 +310,31 @@ particlesJS("particles-bg",{
     onhover:{enable:true, mode:"grab"}
   }
 })
-// 折叠展开逻辑
-const allBox = document.querySelectorAll('.box-item');
-allBox.forEach(box => {
-  const title = box.querySelector('.box-title');
-  title.addEventListener('click', () => {
-    box.classList.toggle('open');
+
+// 卡片点击切换弹窗逻辑
+const cards = document.querySelectorAll('.card-item');
+const panels = document.querySelectorAll('.content-panel');
+const closeBtns = document.querySelectorAll('.close-btn');
+
+// 打开对应面板
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    const targetId = card.getAttribute('data-target');
+    document.getElementById(targetId).style.display = 'flex';
   })
 })
-// 默认打开第一个模块
-allBox[0].classList.add('open');
+// 关闭面板
+closeBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.content-panel').style.display = 'none';
+  })
+})
+// 点击面板空白处关闭
+panels.forEach(panel => {
+  panel.addEventListener('click', e => {
+    if(e.target === panel) panel.style.display = 'none';
+  })
+})
 </script>
 </body>
 </html>
