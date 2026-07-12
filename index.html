@@ -1,135 +1,205 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <!-- 手机适配 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>武子硕 | 个人主页</title>
-    <!-- 引入图标库，不用本地图片 -->
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            /* 渐变高级背景，告别纯白空白 */
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            font-family: "Microsoft Yahei", system-ui, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        /* 主卡片容器 */
-        .card {
-            width: 100%;
-            max-width: 460px;
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 45px 30px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            /* 悬浮上浮动画 */
-            transition: all 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
-        }
-        /* 圆形头像 */
-        .avatar {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #e8e4ff;
-            margin-bottom: 20px;
-        }
-        h1 {
-            color: #222;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #666;
-            font-size: 17px;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-        /* 技术标签行 */
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 35px;
-        }
-        .tag {
-            background: #f0eaff;
-            color: #6c5ce7;
-            padding: 6px 14px;
-            border-radius: 999px;
-            font-size: 14px;
-        }
-        /* 链接按钮 */
-        .link-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 14px;
-            margin: 12px 0;
-            text-decoration: none;
-            font-size: 17px;
-            border-radius: 14px;
-            color: white;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: opacity 0.2s;
-        }
-        .link-item:hover {
-            opacity: 0.85;
-        }
-        /* 底部小字 */
-        .footer-text {
-            margin-top: 40px;
-            color: #999;
-            font-size: 14px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>武子硕 - 个人主页</title>
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  min-height: 100vh;
+  background: linear-gradient(140deg, #192a56, #273c75);
+  font-family: "Microsoft Yahei", sans-serif;
+  color: #fff;
+  padding: 60px 20px;
+}
+.container{
+  max-width: 900px;
+  margin: 0 auto;
+}
+/* 顶部大标题区域 */
+.header{
+  text-align: center;
+  margin-bottom: 50px;
+}
+.header h1{
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+.header p{
+  font-size: 18px;
+  opacity: 0.8;
+}
+/* 折叠模块容器 */
+.box-item{
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+/* 模块标题栏（可点击） */
+.box-title{
+  padding: 20px 26px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.25s;
+}
+.box-title:hover{
+  background: rgba(255,255,255,0.1);
+}
+.box-title i{
+  transition: transform 0.3s ease;
+}
+/* 展开内容区域 */
+.box-content{
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 26px;
+  transition: all 0.4s ease;
+  opacity: 0;
+}
+.box-content-inner{
+  padding-bottom: 26px;
+  line-height: 1.7;
+  font-size: 16px;
+  opacity: 0.9;
+}
+/* 激活展开状态类 */
+.box-item.open .box-content{
+  max-height: 2000px;
+  padding: 0 26px 26px;
+  opacity: 1;
+}
+.box-item.open .box-title i{
+  transform: rotate(180deg);
+}
+/* 标签样式 */
+.tag{
+  display: inline-block;
+  background: rgba(100,180,255,0.2);
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin: 6px 4px;
+  font-size: 14px;
+}
+/* 链接按钮 */
+.link{
+  display: inline-block;
+  margin: 8px 10px 8px 0;
+  padding: 9px 16px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.link:hover{
+  background: rgba(100,180,255,0.3);
+}
+</style>
 </head>
 <body>
-    <div class="card">
-        <!-- 头像，替换src为你的图片链接 -->
-        <img class="avatar" src="https://avatars.githubusercontent.com/u/583231?v=4" alt="头像">
-        <h1>武子硕</h1>
-        <p class="subtitle">北大生命科学｜生物/编程爱好者｜iGEM参赛选手</p>
+<div class="container">
+  <div class="header">
+    <h1>武子硕</h1>
+    <p>北京大学 生命科学｜合成生物学 & 生物信息学</p>
+  </div>
 
-        <!-- 技能标签，按需增删 -->
-        <div class="tags">
-            <span class="tag">生物实验</span>
-            <span class="tag">Python</span>
-            <span class="tag">合成生物学</span>
-            <span class="tag">数据分析</span>
-        </div>
-
-        <!-- 社交链接 -->
-        <a class="link-item" href="https://github.com/wuzishuo">
-            <i class="fa-brands fa-github"></i> 我的GitHub
-        </a>
-        <a class="link-item" href="mailto:xxx@qq.com">
-            <i class="fa-solid fa-envelope"></i> 联系邮箱
-        </a>
-        <a class="link-item" href="#">
-            <i class="fa-solid fa-flask"></i> 科研项目
-        </a>
-
-        <div class="footer-text">
-            Powered by GitHub Pages · 2026
-        </div>
+  <!-- 模块1：个人简介 -->
+  <div class="box-item">
+    <div class="box-title">
+      <span><i class="fa-solid fa-user"></i> 关于我</span>
+      <i class="fa-solid fa-chevron-down"></i>
     </div>
+    <div class="box-content">
+      <div class="box-content-inner">
+        本科就读于北大生命科学学院，专注合成生物学、微生物工程与生物数据分析；参与iGEM竞赛，擅长分子实验、Python生物信息处理、数据可视化。
+        <br><br>
+        日常兴趣：野外植物生态考察、数理推导、前端页面开发。
+      </div>
+    </div>
+  </div>
+
+  <!-- 模块2：技能栈 -->
+  <div class="box-item">
+    <div class="box-title">
+      <span><i class="fa-solid fa-flask"></i> 专业技能</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="box-content">
+      <div class="box-content-inner">
+        <strong>生物方向：</strong><br>
+        <span class="tag">分子克隆</span>
+        <span class="tag">细胞培养</span>
+        <span class="tag">微生物实验</span>
+        <span class="tag">野外植物生态</span>
+        <br><br>
+        <strong>编程工具：</strong><br>
+        <span class="tag">Python</span>
+        <span class="tag">HTML/CSS/JS</span>
+        <span class="tag">生物信息分析</span>
+        <span class="tag">数据绘图</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 模块3：科研项目 -->
+  <div class="box-item">
+    <div class="box-title">
+      <span><i class="fa-solid fa-file-circle-question"></i> 项目与竞赛</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="box-content">
+      <div class="box-content-inner">
+        <strong>iGEM 合成生物学项目</strong>
+        <p>设计工程菌用于环境胁迫响应，完成载体构建、表征实验与建模分析。</p>
+        <br>
+        <strong>高原植物适应机制调研</strong>
+        <p>西北干旱、高海拔植物野外采样，研究耐旱耐盐生理结构。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 模块4：联系方式 -->
+  <div class="box-item">
+    <div class="box-title">
+      <span><i class="fa-solid fa-envelope"></i> 联系渠道</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="box-content">
+      <div class="box-content-inner">
+        <a class="link" href="https://github.com/wuzishuo">
+          <i class="fa-brands fa-github"></i> GitHub
+        </a>
+        <a class="link" href="mailto:xxx@qq.com">
+          <i class="fa-solid fa-at"></i> 邮箱
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 折叠展开逻辑
+const allBox = document.querySelectorAll('.box-item');
+allBox.forEach(box => {
+  const title = box.querySelector('.box-title');
+  title.addEventListener('click', () => {
+    box.classList.toggle('open');
+  })
+})
+// 默认打开第一个模块
+allBox[0].classList.add('open');
+</script>
 </body>
 </html>
