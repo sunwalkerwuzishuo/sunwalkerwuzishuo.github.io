@@ -156,6 +156,20 @@ body{
 #panel-post{
   width: min(900px,100%);
 }
+/* 文件下载链接样式 */
+.file-link{
+  display:block;
+  padding:12px 16px;
+  margin:10px 0;
+  background:rgba(100,180,255,0.12);
+  border-radius:12px;
+  color:#fff;
+  text-decoration:none;
+  transition:0.2s;
+}
+.file-link:hover{
+  background:rgba(100,180,255,0.25);
+}
 </style>
 </head>
 <body>
@@ -171,11 +185,12 @@ body{
 <div class="card-wrap">
   <div class="card-item" data-target="panel-about">
     <i class="fa-solid fa-user"></i>
-    <span>关于我</span>
+    <span>关于这里</span>
   </div>
-  <div class="card-item" data-target="panel-skill">
-    <i class="fa-solid fa-flask"></i>
-    <span>专业技能</span>
+  <!-- 原本专业技能位置替换为学习资料下载 -->
+  <div class="card-item" data-target="panel-files">
+    <i class="fa-solid fa-folder-open"></i>
+    <span>学习资料下载</span>
   </div>
   <div class="card-item" data-target="panel-project">
     <i class="fa-solid fa-file-circle-question"></i>
@@ -206,25 +221,22 @@ body{
   </div>
 </div>
 
-<!-- 弹窗面板2：专业技能 -->
-<div class="content-panel" id="panel-skill">
+<!-- 弹窗面板2：学习资料下载 -->
+<div class="content-panel" id="panel-files">
   <div class="panel-box">
     <i class="fa-solid fa-xmark close-btn"></i>
     <div class="panel-title">
-      <i class="fa-solid fa-flask"></i> 专业技能
+      <i class="fa-solid fa-folder-open"></i> 学习资料下载
     </div>
     <div class="panel-text">
-      <strong>生物方向：</strong><br>
-      <span class="tag">分子克隆</span>
-      <span class="tag">细胞培养</span>
-      <span class="tag">微生物实验</span>
-      <span class="tag">野外植物生态</span>
-      <br><br>
-      <strong>编程工具：</strong><br>
-      <span class="tag">Python</span>
-      <span class="tag">HTML/CSS/JS</span>
-      <span class="tag">生物信息分析</span>
-      <span class="tag">数据绘图</span>
+      <p>资料持续更新，所有文件由站长上传，点击链接直接下载。</p>
+      <br>
+      <!-- =========在这里添加你的文件下载链接=========
+      示例模板：
+      <a class="file-link" href="文件原始GitHub链接" download>
+         <i class="fa-solid fa-file-pdf"></i> 资料名称.pdf
+      </a>
+      -->
     </div>
   </div>
 </div>
@@ -256,8 +268,8 @@ body{
     <div class="panel-text">
       <a class="link" href="https://github.com/wuzishuo">
         <i class="fa-brands fa-github"></i> GitHub
-        <p>QQ：2764618588</p>
       </a>
+      <p>QQ：2764618588</p>
     </div>
   </div>
 </div>
