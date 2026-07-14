@@ -170,6 +170,9 @@ body{
 .file-link:hover{
   background:rgba(100,180,255,0.25);
 }
+.load-tip{
+  color:#999;
+}
 </style>
 </head>
 <body>
@@ -187,7 +190,6 @@ body{
     <i class="fa-solid fa-user"></i>
     <span>关于这里</span>
   </div>
-  <!-- 原本专业技能位置替换为学习资料下载 -->
   <div class="card-item" data-target="panel-files">
     <i class="fa-solid fa-folder-open"></i>
     <span>学习资料下载</span>
@@ -221,7 +223,7 @@ body{
   </div>
 </div>
 
-<!-- 弹窗面板2：学习资料下载 -->
+<!-- 弹窗面板2：学习资料下载【自动读取files文件夹】 -->
 <div class="content-panel" id="panel-files">
   <div class="panel-box">
     <i class="fa-solid fa-xmark close-btn"></i>
@@ -229,14 +231,11 @@ body{
       <i class="fa-solid fa-folder-open"></i> 学习资料下载
     </div>
     <div class="panel-text">
-      <p>资料持续更新，所有文件由站长上传，点击链接直接下载。</p>
+      <p>点击文件名称跳转至仓库页面，可以在线预览或下载文件。所有资料持续更新。</p>
       <br>
-      <!-- =========在这里添加你的文件下载链接=========
-      示例模板：
-      <a class="file-link" href="文件原始GitHub链接" download>
-         <i class="fa-solid fa-file-pdf"></i> 资料名称.pdf
-      </a>
-      -->
+      <div id="file-list">
+        <span class="load-tip">正在加载文件列表……</span>
+      </div>
     </div>
   </div>
 </div>
@@ -321,16 +320,61 @@ particlesJS("particles-bg",{
   }
 })
 
+// ============自动加载files文件夹文件列表配置============
+const OWNER = "sunwalkerwuzishuo";
+const REPO = "sunwalkerwuzishuo.github.io";
+const FOLDER_PATH = "files";
+const BRANCH = "main";
+
+async function loadFileList(){
+  try{
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER_PATH}?ref=${BRANCH}`);
+    const data = await res.json();
+    const container = document.getElementById("file-list");
+    container.innerHTML = "";
+
+    // 只筛选文件，排除文件夹
+    const files = data.filter(item=>item.type === "file");
+    if(files.length === 0){
+      container.innerHTML = "<span class='load-tip'>暂无上传资料</span>";
+      return;
+    }
+    files.forEach(file=>{
+      // 跳转页面：仓库blob浏览页面
+      const pageUrl = `https://github.com/${OWNER}/${REPO}/blob/${BRANCH}/${FOLDER_PATH}/${file.name}`;
+      let icon = "fa-file";
+      if(file.name.endsWith(".pdf")) icon = "fa-file-pdf";
+      else if(/\.(zip|rar|7z)$/.test(file.name)) icon = "fa-file-zipper";
+      else if(/\.(docx|doc)$/.test(file.name)) icon = "fa-file-word";
+      else if(/\.(xlsx|xls)$/.test(file.name)) icon = "fa-file-excel";
+
+      const a = document.createElement("a");
+      a.className = "file-link";
+      a.href = pageUrl;
+      a.target = "_blank"; // 新标签打开仓库页面
+      a.innerHTML = `<i class="fa-solid ${icon}"></i> ${file.name}`;
+      container.appendChild(a);
+    })
+  }catch(err){
+    document.getElementById("file-list").innerHTML = "<span class='load-tip'>文件列表加载失败，请稍后刷新页面</span>";
+    console.error(err);
+  }
+}
+
 // 卡片点击切换弹窗逻辑
 const cards = document.querySelectorAll('.card-item');
 const panels = document.querySelectorAll('.content-panel');
 const closeBtns = document.querySelectorAll('.close-btn');
 
-// 打开对应面板
 cards.forEach(card => {
   card.addEventListener('click', () => {
     const targetId = card.getAttribute('data-target');
-    document.getElementById(targetId).style.display = 'flex';
+    const panel = document.getElementById(targetId);
+    panel.style.display = 'flex';
+    // 如果打开的是资料面板，加载文件列表
+    if(targetId === "panel-files"){
+      loadFileList();
+    }
   })
 })
 // 关闭面板
